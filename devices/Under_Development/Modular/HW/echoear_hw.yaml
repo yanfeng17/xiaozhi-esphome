@@ -27,6 +27,7 @@ audio_dac:
     id: es8311_dac
     bits_per_sample: 16bit
     sample_rate: 48000
+    setup_priority: -10  # 确保晚于其他组件初始化，减少爆破音
 
 # --- TOUCHSCREEN --------------------------------------------------------------
 touchscreen:
@@ -163,6 +164,9 @@ switch:
     entity_category: config
     pin: GPIO4
     restore_mode: RESTORE_DEFAULT_ON
+    setup_priority: 100  # 确保早于音频DAC初始化
+    on_turn_on:
+      - delay: 200ms     # 扬声器预热延迟，减少爆破音
   - platform: gpio
     name: "Top Green LED"
     pin:
